@@ -17,7 +17,7 @@ steps:
 - script: pytest --showlocals --durations=20 --mpl --mpl-baseline-path=etc/pytest_images --pyargs pmdarima --benchmark-skip
   displayName: 'Running unit tests'
 
-- script: bash <(curl https://codecov.io/bash)
+- script: codecov
   displayName: 'Checking code coverage'
 
   # We build the source archive separately because of this: https://github.com/tgsmith61591/pmdarima/pull/136#discussion_r279781731
