@@ -70,6 +70,8 @@ jobs:
   - template: build_and_deploy.yml
 
 - job: macOS_code_coverage
+  # Skip code coverage on a deploy
+  condition: not(contains(variables['Build.SourceBranch'], 'tags'))
 
   pool:
     vmImage: 'macOS-10.13'
@@ -78,6 +80,8 @@ jobs:
     - template: code_coverage.yml
 
 - job: Windows_code_coverage
+  # Skip code coverage on a deploy
+  condition: not(contains(variables['Build.SourceBranch'], 'tags'))
 
   pool:
     vmImage: 'vs2017-win2016'
