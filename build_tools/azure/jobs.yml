@@ -68,3 +68,19 @@ jobs:
     displayName: 'Setting Python version'
 
   - template: build_and_deploy.yml
+
+- job: macOS Code Coverage
+
+  pool:
+    vmImage: 'macOS-10.13'
+
+  steps:
+    - template: code_coverage.yml
+
+- job: Windows Code Coverage
+
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+    - template: code_coverage.yml

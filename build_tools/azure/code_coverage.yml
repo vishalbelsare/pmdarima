@@ -1,0 +1,6 @@
+steps:
+  - script: make coverage-dependencies
+    displayName: 'Installing dependencies'
+
+  - script: codecov
+    displayName: 'Checking code coverage'
