@@ -14,7 +14,7 @@ steps:
 - script: pip install --pre --no-index --find-links dist/ pmdarima
   displayName: 'Installing generated wheel'
 
-- script: pytest --showlocals --durations=20 --mpl --mpl-baseline-path=etc/pytest_images --pyargs pmdarima --benchmark-skip
+- script: make test-unit # pytest --showlocals --durations=20 --mpl --mpl-baseline-path=etc/pytest_images --pyargs pmdarima --benchmark-skip
   displayName: 'Running unit tests'
 
 - script: codecov
