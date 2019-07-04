@@ -2,5 +2,5 @@ steps:
   - script: make coverage-dependencies
     displayName: 'Installing dependencies'
 
-  - script: codecov -t fake-token
+  - script: codecov
     displayName: 'Checking code coverage'
