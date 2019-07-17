@@ -9,11 +9,11 @@ steps:
       $(Agent.OS)
       $(python.version)
       $(architecture)
-      $(Build.SourceDirectory)/requirements.txt
-      $(Build.SourceDirectory)/build_tools/azure/requirements.txt
+      $(Build.SourcesDirectory)/requirements.txt
+      $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
     path: $(Pipeline.Workspace)/.pip
     cacheHitVar: CACHE_RESTORED
-  displayName: Collecting Cache
+  displayName: Cache packages
 
 - script: |
     pip install -r requirements.txt
