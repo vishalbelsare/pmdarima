@@ -11,7 +11,7 @@ steps:
       $(architecture)
       $(Build.SourcesDirectory)/requirements.txt
       $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
-    path: $(Pipeline.Workspace)/.pip
+    path: $(PIP_CACHE_DIRECTORY)
     cacheHitVar: CACHE_RESTORED
   displayName: Cache packages
 

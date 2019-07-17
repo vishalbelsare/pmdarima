@@ -1,3 +1,6 @@
+variables:
+  PIP_CACHE_DIRECTORY: $(Pipeline.Workspace)/.pip
+
 jobs:
 - job: Windows
 
