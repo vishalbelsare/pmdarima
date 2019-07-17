@@ -21,6 +21,7 @@ pr:
 variables:
   # Read deployment variables from our secret group
   - group: deploy-vars
+  PIP_CACHE_DIRECTORY: $(Pipeline.Workspace)/.pip
 
 jobs:
 - template: build_tools/azure/jobs.yml
