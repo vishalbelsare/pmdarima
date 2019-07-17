@@ -7,6 +7,8 @@ steps:
     key: |
       pip
       $(Agent.OS)
+      $(python.version)
+      $(architecture)
       $(Build.SourceDirectory)/requirements.txt
       $(Build.SourceDirectory)/build_tools/azure/requirements.txt
     path: $(Pipeline.Workspace)/.pip
