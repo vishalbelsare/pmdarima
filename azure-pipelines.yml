@@ -22,7 +22,7 @@ variables:
   # Read deployment variables from our secret group
   - group: deploy-vars
   - name: PIP_CACHE_DIRECTORY
-    value: $(Pipeline.Workspace)/.pip
+    value: $(Pipeline.Workspace)/pip
 
 jobs:
 - template: build_tools/azure/jobs.yml
