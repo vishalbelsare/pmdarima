@@ -5,10 +5,8 @@ steps:
 - task: CacheBeta@0
   inputs:
     key: |
-      pip
       $(Agent.OS)
       $(python.version)
-      $(architecture)
       $(Build.SourcesDirectory)/requirements.txt
       $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
     path: $(PIP_CACHE_DIRECTORY)
