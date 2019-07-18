@@ -38,6 +38,18 @@ jobs:
       architecture: '$(architecture)'
     displayName: 'Setting Python version and system architecture'
 
+  # We do this outside of the template, because only Windows uses architecture
+  - task: CacheBeta@0
+    inputs:
+      key: |
+        $(Agent.OS)
+        $(python.version)
+        $(architecture)
+        $(Build.SourcesDirectory)/requirements.txt
+        $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
+      cacheHitVar: CACHE_RESTORED
+    displayName: Cache packages
+
   - template: build_and_deploy.yml
 
 - job: macOS
@@ -66,5 +78,16 @@ jobs:
     inputs:
       versionSpec: '$(python.version)'
     displayName: 'Setting Python version'
+
+  # We do this outside of the template, because macOS does not use architecture variable
+  - task: CacheBeta@0
+    inputs:
+      key: |
+        $(Agent.OS)
+        $(python.version)
+        $(Build.SourcesDirectory)/requirements.txt
+        $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
+      cacheHitVar: CACHE_RESTORED
+    displayName: Cache packages
 
   - template: build_and_deploy.yml

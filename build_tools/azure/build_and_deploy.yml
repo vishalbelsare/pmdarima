@@ -2,16 +2,6 @@ steps:
 - script: python -m pip install --upgrade pip
   displayName: 'Updating pip'
 
-- task: CacheBeta@0
-  inputs:
-    key: |
-      $(Agent.OS)
-      $(python.version)
-      $(Build.SourcesDirectory)/requirements.txt
-      $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
-    cacheHitVar: CACHE_RESTORED
-  displayName: Cache packages
-
 - script: |
     pip install -r requirements.txt
     pip install -r build_tools/azure/requirements.txt
