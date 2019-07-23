@@ -47,6 +47,7 @@ jobs:
         $(architecture)
         $(Build.SourcesDirectory)/requirements.txt
         $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
+      path: c:\hostedtoolcache\windows\python\$(python.version)\$(architecture)\lib\site-packages
       cacheHitVar: CACHE_RESTORED
     displayName: Cache packages
 
@@ -87,6 +88,7 @@ jobs:
         $(python.version)
         $(Build.SourcesDirectory)/requirements.txt
         $(Build.SourcesDirectory)/build_tools/azure/requirements.txt
+      path: /Users/vsts/hostedtoolcache/Python/$(python.version)/x86/$[ substring($(python.version), 0, 3) ]/site-packages
       cacheHitVar: CACHE_RESTORED
     displayName: Cache packages
 
