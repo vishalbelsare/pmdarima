@@ -95,12 +95,14 @@ class _RandomFitWrapper(_SolverMixin):
             )
 
         # if we are fitting a random search rather than an exhaustive one, we
-        # will scramble up the generator (as a list) and only fit n_iter ARIMAs
+        # will scramble up the generator (as a list) and only fit n_fits ARIMAs
         if random:
             random_state = check_random_state(random_state)
 
-            # make a list to scramble...
-            gen = random_state.permutation(list(gen))[:n_fits]
+            # make a list to scramble... `gen` may have a ragged nested
+            # sequence, so we have to explicitly use dtype='object', otherwise
+            # it will raise a ValueError on numpy >= 1.24
+            gen = random_state.permutation(np.array(list(gen), dtype='object'))[:n_fits]  # noqa: E501
 
         self.gen = gen
         self.n_jobs = n_jobs

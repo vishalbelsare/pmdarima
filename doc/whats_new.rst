@@ -7,10 +7,75 @@ What's new in pmdarima
 As new releases of pmdarima are pushed out, the following list (introduced in
 v0.8.1) will document the latest features.
 
+`v2.0.5 <https://alkaline-ml.com/pmdarima/2.0.5>`_
+-------------------------------------------------
+
+* Remove support for Python 3.7 (end-of-life 2023-06-23)
+* Remove support for Python 3.8 (end-of-life 2024-10-07)
+
+`v2.0.4 <https://alkaline-ml.com/pmdarima/2.0.4>`_
+-------------------------------------------------
+
+* Pin numpy to ``<2.0.0`` while work is done to support numpy ``>=2.0.0``
+
+`v2.0.3 <https://alkaline-ml.com/pmdarima/2.0.3>`_
+-------------------------------------------------
+
+* Fix a bug when generating permutations using ``numpy>=1.24.0``. See `#534 <https://github.com/alkaline-ml/pmdarima/pull/534>`_
+* Fix a bug in ``transform`` when using ``scikit-learn>=1.2.0``, addressing `#539 <https://github.com/alkaline-ml/pmdarima/issues/539>`_
+
+`v2.0.2 <http://alkaline-ml.com/pmdarima/2.0.2>`_
+-------------------------------------------------
+
+* Add support for Python 3.11
+* Change minimum numpy version to ``1.21.2``
+
+`v2.0.1 <http://alkaline-ml.com/pmdarima/2.0.1>`_
+-------------------------------------------------
+
+* Add support for macOS with M1 chip
+
+`v2.0.0 <http://alkaline-ml.com/pmdarima/2.0.0>`_
+-------------------------------------------------
+
+* Potentially breaking changes:
+
+  - Use of the ``exogenous`` keyword (deprecated in 1.8.0) will now raise a ``TypeError``
+
+  - Use of the ``sarimax_kwargs`` keyword (deprecated in 1.5.1) will now raise a ``TypeError``
+
+  - A falsey value for ARIMA's ``method`` argument (deprecated pre-1.5.0) will now raise a ``ValueError``
+
+  - A falsey value for ARIMA's ``maxiter`` argument will now raise a ``ValueError`` (warning since 1.5.0)
+
+  - ``pmdarima`` is no longer built for 32-bit architectures
+
+  - macOS images are built using macOS 11 instead of macOS 10.15
+
+* Bump numpy dependency to >= 1.21
+
+* Expose ``fittedvalues`` in the public API. See `#493 <https://github.com/alkaline-ml/pmdarima/issues/493>`_
+
+* Add support for ARM64 architecture. See `#434 <https://github.com/alkaline-ml/pmdarima/issues/434>`_
+
+* Introduce new arg, ``preserve_series``, to ``pmdarima.utils.check_endog`` that will preserve or squeeze
+  a Pandas ``Series`` object to preserve index information.
+
+* Update Cython pinned version to include ``!=0.29.31``
+
+`v1.8.5 <http://alkaline-ml.com/pmdarima/1.8.5>`_
+-------------------------------------------------
+
+* Add support for Python 3.10
+
+* Remove support for Python 3.6
+
+
 `v1.8.4 <http://alkaline-ml.com/pmdarima/1.8.4/>`_
 --------------------------------------------------
 
 * Add compatibility for ``statsmodels`` 0.13 and higher
+
 
 `v1.8.3 <http://alkaline-ml.com/pmdarima/1.8.3/>`_
 --------------------------------------------------

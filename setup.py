@@ -12,14 +12,16 @@ import platform
 import shutil
 
 from distutils.command.clean import clean as Clean
-from pkg_resources import parse_version
+from packaging.version import Version
+from setuptools import find_packages
 import traceback
 import importlib
 
 import builtins
 
 # Minimum allowed version
-MIN_PYTHON = (3, 6)
+IS_PYTHON_312 = sys.version_info[0] == 3 and sys.version_info[1] >= 12
+MIN_PYTHON = (3, 9)
 
 # Hacky (!!), adopted from sklearn. This sets a global variable
 # so pmdarima __init__ can detect if it's being loaded in the setup
@@ -126,7 +128,6 @@ class CleanCommand(Clean):
 
 cmdclass = {'clean': CleanCommand}
 
-
 # build_ext has to be imported after setuptools
 try:
     import numpy as np
@@ -188,8 +189,8 @@ def check_package_status(package, min_version):
     try:
         module = importlib.import_module(package)
         package_version = module.__version__
-        package_status['up_to_date'] = parse_version(
-            package_version) >= parse_version(min_version)
+        package_status['up_to_date'] = Version(
+            package_version) >= Version(min_version)
         package_status['version'] = package_version
     except ImportError:
         traceback.print_exc()
@@ -238,16 +239,19 @@ def do_setup():
                         'Operating System :: Unix',
                         'Operating System :: MacOS',
                         'Programming Language :: Python :: 3',
-                        'Programming Language :: Python :: 3.6',
-                        'Programming Language :: Python :: 3.7',
-                        'Programming Language :: Python :: 3.8',
                         'Programming Language :: Python :: 3.9',
+                        'Programming Language :: Python :: 3.10',
+                        'Programming Language :: Python :: 3.11',
+                        'Programming Language :: Python :: 3.12',
                         ('Programming Language :: Python :: '
                          'Implementation :: CPython'),
                     ],
                     cmdclass=cmdclass,
                     python_requires=f'>={MIN_PYTHON[0]}.{MIN_PYTHON[1]}',
                     install_requires=REQUIREMENTS,
+                    # Adapted from: https://github.com/inmanta/inmanta/pull/83
+                    # See also: https://github.com/pypa/setuptools/issues/3197
+                    packages=find_packages(),
                     # We have a MANIFEST.in, so I'm not convinced this is fully
                     # necessary, but better to be safe since we've had sdist
                     # problems in the past...
@@ -313,9 +317,42 @@ def do_setup():
             )
 
         # for sdist, use setuptools so we get the long_description_content_type
-        if 'sdist' in sys.argv:
+        if 'sdist' in sys.argv or IS_PYTHON_312:
             from setuptools import setup
             print("Setting up with setuptools")
+
+            # Needs to be unset when building sdist
+            os.environ.pop("SETUPTOOLS_USE_DISTUTILS", None)
+
+            # TODO: distutils is removed in Python 3.12+, so this should probably be the default
+            if IS_PYTHON_312:
+                from setuptools import Extension
+
+                import numpy
+
+                include_dirs = [numpy.get_include()]
+                metadata['ext_modules'] = [
+                    Extension(
+                        name='pmdarima.arima._arima',
+                        sources=['pmdarima/arima/_arima.pyx'],
+                        include_dirs=include_dirs
+                    ),
+                    Extension(
+                        name='pmdarima.preprocessing.exog._fourier',
+                        sources=['pmdarima/preprocessing/exog/_fourier.pyx'],
+                        include_dirs=include_dirs
+                    ),
+                    Extension(
+                        name='pmdarima.utils._array',
+                        sources=['pmdarima/utils/_array.pyx'],
+                        include_dirs=include_dirs
+                    ),
+                    Extension(
+                        name='pmdarima.__check_build._check_build',
+                        sources=['pmdarima/__check_build/_check_build.pyx'],
+                        include_dirs=include_dirs
+                    )
+                ]
         else:
             # we should only need numpy for building. Everything else can be
             # collected via install_requires above
